@@ -17,7 +17,6 @@ export default function SearchableLayout({ children }: { children: React.ReactNo
     if(q) setState(q);
   },[q]);
   const onSearch = () => {
-    if(!state) return;
     if(q === state) return;
     router.push(`/search?q=${state}`);
   };
