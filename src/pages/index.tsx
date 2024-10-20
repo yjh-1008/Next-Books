@@ -12,11 +12,10 @@ import fetchRandomBooks from '@/lib/fetch-random-books';
 
 export const getStaticProps = async () => {
   const [allBooks, randomBooks] = await Promise.all([fetchBooks(), fetchRandomBooks()]);
-  return { props: { allBooks, randomBooks } }
+  return { props: { allBooks, randomBooks }}
 }
 
 export default function Home({allBooks, randomBooks}:InferGetStaticPropsType<typeof getStaticProps>) {
-  console.log(allBooks);
   return (
     <>
       <section>
