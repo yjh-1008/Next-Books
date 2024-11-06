@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 import style from './[id].module.css'
-import fetchBook from '@/lib/fetch-book';
+import fetchBook from '../../lib/fetch-book';
 import { useRouter } from 'next/router';
-
+import Head from 'next/head';
 
 // export const getStaticProps = async (context: GetStaticPropsContext) => {
 //   const { params } = context;
@@ -32,10 +32,29 @@ export default function Book({
   book
 }:InferGetStaticPropsType<typeof getStaticProps>) {
   const router = useRouter();
-  if(router.isFallback) return <div>Loading...</div>;
+  if(router.isFallback) {
+    return (
+      <>
+         <Head>
+          <title>한입북스</title>
+          <meta property="og:image" content="/thumbnail.png" />
+          <meta property="og:title" content="한입북스" />
+          <meta property="og:description" content="한입북스는 책을 통해 세상을 바라보는 모습을 소개하는 책 추천 서비스입니다." />
+        </Head>
+        <div>Loading...</div>
+      </>
+    )
+  }
   if(!book) return <div>Book not found</div>;
   return (
-    <div className={style.container}>
+    <>
+      <Head>
+        <title>한입북스</title>
+        <meta property="og:image" content={book?.coverImgUrl} />
+        <meta property="og:title" content={book?.title} />
+        <meta property="og:description" content={book?.description} />
+      </Head>
+      <div className={style.container}>
         <div className={style.cover_img_container} style={{ backgroundImage: `url(${book?.coverImgUrl})` }}>
         <img src={book?.coverImgUrl} alt="섬네일" />
       </div>
@@ -45,7 +64,9 @@ export default function Book({
         <br/>
         <div className={style.author}>{book?.author} | {book?.publisher}</div>
         <div className={style.description}>{book?.description}</div>
-      </div>
-    </div>
+        </div>
+      </div>  
+    </>
+
   )
 }

@@ -1,4 +1,4 @@
-import type { Book } from "@/components/types";
+import type { Book } from "../components/types";
 export default async function fetchRandomBooks(): Promise<Book[] | null> {
   const response = await fetch("http://localhost:12345/book/random");
   try{

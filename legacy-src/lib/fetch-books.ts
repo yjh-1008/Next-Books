@@ -1,4 +1,4 @@
-import type { Book } from "@/components/types";
+import type { Book } from "../components/types";
 export default async function fetchBooks(searchTxt?: string): Promise<Book[]> {
   let url = "http://localhost:12345/book";
   console.log(searchTxt);
