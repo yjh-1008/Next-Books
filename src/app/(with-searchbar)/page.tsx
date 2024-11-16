@@ -1,8 +1,9 @@
 import BookItem from "@/components/book-item";
 import style from "./page.module.css";
 import { BookData } from "@/types";
+import { Suspense } from "react";
 
-export const dynamic =''
+// export const dynamic =''
 //특정 페이지의 유형을 강제로 Static, Dynamic 페이지로 설정
 // 1. auto
 // 2. force-dynamic
@@ -39,17 +40,22 @@ async function RecoBooks() {
   )
 }
 
+export const dynamic = "force-dynamic"
 
-export default function Home() {
+export default async function Home() {
   return (
     <div className={style.container}>
       <section>
         <h3>지금 추천하는 도서</h3>
-        <AllBooks />
+        <Suspense fallback={<div>Loading...</div>}>
+          <AllBooks />
+        </Suspense>
       </section>
       <section>
         <h3>등록된 모든 도서</h3>
-        <RecoBooks />
+        <Suspense fallback={<div>Loading...</div>}>
+          <RecoBooks />
+        </Suspense>
       </section>
     </div>
   );
