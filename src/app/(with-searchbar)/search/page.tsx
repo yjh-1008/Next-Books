@@ -26,7 +26,7 @@ export default async function Page({
   };
 }) {
   return (
-    <Suspense key={searchParams.q || ""} fallback={<div>Loading...</div>}>
+    <Suspense key={searchParams.q || ""} fallback={<div>Loading..123.</div>}>
       <SearchResult q={searchParams.q || "" }/>
     </Suspense>
   )
