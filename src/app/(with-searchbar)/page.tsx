@@ -48,7 +48,7 @@ export default async function Home() {
     <div className={style.container}>
       <section>
         <h3>지금 추천하는 도서</h3>
-
+        {/* <BookListSkeleton count={5} /> */}
         <Suspense fallback={
             <BookListSkeleton count={5} />
         }>

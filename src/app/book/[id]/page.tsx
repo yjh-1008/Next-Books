@@ -1,21 +1,16 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
+import { createReviewAction } from "@/actions/create-review.action";
 import { notFound } from "next/navigation";
 import style from "./page.module.css";
-
-// export const dynamicParams = false;
 
 export function generateStaticParams() {
   return [[{id: "1"},{id: "2"}, {id:"3"}]]
 }
 
-export default async function Page({
-  params,
-}: {
-  params: { id: string | string[] };
-}) {
+async function BookDetail({id}: {id: string}) {
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${params.id}`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${id}`);
 
   if(!response.ok) {
     if(response.status === 404) {
@@ -32,7 +27,7 @@ export default async function Page({
     coverImgUrl,
   } = await response.json();
   return (
-    <div className={style.container}>
+    <section>
       <div
         className={style.cover_img_container}
         style={{ backgroundImage: `url('${coverImgUrl}')` }}
@@ -45,6 +40,31 @@ export default async function Page({
         {author} | {publisher}
       </div>
       <div className={style.description}>{description}</div>
-    </div>
+    </section>
   );
+}
+
+function ReviewEditor({bookId}: {bookId: string}) {
+ 
+  return <section>
+    <form action={createReviewAction}>
+      <input name="bookId" value={bookId} readOnly hidden />
+      <input required name="content" placeholder="리뷰 내용" />
+      <input required name="author" placeholder="작성자" />
+      <button type="submit">작성하기</button>
+    </form>
+  </section>
+}
+
+export default async function Page({
+  params,
+}: {
+  params: { id: string};
+}) {
+  return (
+    <div className={style.container}>
+      <BookDetail id={params.id} />
+      <ReviewEditor bookId={params.id} />
+    </div>
+  )
 }
